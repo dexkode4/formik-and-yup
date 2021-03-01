@@ -1,8 +1,9 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+/* eslint-disable react/react-in-jsx-scope */
+import { encodePwd } from './utils';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+test('Password encryption function works correctly', () => {
+  const encoded = encodePwd("Errors in strategy cannot be correct through tactical manoeuvres");
+  expect(encoded).toBe("Viilih rm hgizgvtb xzmmlg yv xliivxg gsilfts gzxgrxzo nzmlvfeivh");
+  const encoded2 = encodePwd("acp");
+  expect(encoded2).toBe("zxk");
 });

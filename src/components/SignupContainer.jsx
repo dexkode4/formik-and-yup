@@ -4,6 +4,7 @@ import { Formik } from "formik";
 import { toast } from 'react-toastify';
 import * as Yup from "yup";
 import Signup from './Signup'
+import { encodePwd } from '../utils';
 
 const password_regex = /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-])/
 
@@ -16,6 +17,8 @@ function SignupContainer() {
                     <Formik
                         initialValues={{ fullname: "", email: "", password: "", confirm_password: "" }}
                         onSubmit={(values, { setSubmitting, resetForm }) => {
+                            values.password = encodePwd(values.password);
+                            console.log(values)
                             toast.success("Signup successful")
                             resetForm({ values: "" });
                         }}
