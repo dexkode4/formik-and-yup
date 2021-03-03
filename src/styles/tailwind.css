@@ -1,4 +1,95 @@
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Karla:wght@200;300;400;500;600;700&family=Nunito:wght@200;300;400;600;700;800;900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+.font-karla {
+    font-family: 'Karla', sans-serif;
+}
+
+.font-nunito{
+    font-family: 'Nunito', sans-serif;
+}
+
+.card-shadow {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.05);
+  }
+  
+.card-number-color {
+    color: #E5E6EC;
+}
+.color-dark-brown{
+    color: #6A6A6A;
+}
+
+.color-card-text {
+    color: #78849E;
+}
+
+.card-svg path {
+    transition: all .2s ease-in;
+}
+
+.card-svg:hover path {
+    fill: #B7076B;
+}
+.card-svg-stroke path {
+    transition: all .2s ease-in;
+}
+
+.card-svg-stroke:hover path {
+    stroke: #B7076B;
+}
+
+.card-svg-rect rect {
+    transition: all .2s ease-in;
+}
+
+.card-svg-rect:hover rect {
+    fill: #B7076B;
+}
+
+.card-btn{
+    background: #9F3646;
+    padding: 0.4rem 1.25rem;
+    outline: none !important;
+}
+
+.carousel{
+    overflow: hidden;
+    width: 40vw;
+}
+
+.card-container {
+    width: 210vw;
+    transition: all 1s;
+}
+
+.card {
+    width: 38vw;
+    max-height: 370px;
+    overflow: hidden;
+    -ms-overflow-style: none; 
+     scrollbar-width: none;  
+}
+
+.card::-webkit-scrollbar {
+    display: none;
+  }
+  
+
+
+input[type="radio"]:checked + label  path {
+    fill: #B7076B;
+}
+
+input[type="radio"]:checked + label rect {
+    fill: #B7076B;
+}
+input[type="radio"]:checked + .card-svg-stroke  path {
+    stroke: #B7076B;
+}
