@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useRef, useState } from 'react';
 import Card from './components/Card';
-import SignupContainer from './components/SignupContainer';
 
 function App() {
   const cardContainerRef = useRef()

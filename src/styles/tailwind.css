@@ -52,6 +52,14 @@
 .card-svg-rect:hover rect {
     fill: #B7076B;
 }
+/*  */
+.card-svg-walk > *, .card-svg-walk path, .card-svg-walk g  {
+    transition: all .2s ease-in;
+}
+
+.card-svg-walk:hover > * , .card-svg-walk:hover path, .card-svg-walk:hover g   {
+    stroke: #B7076B;
+}
 
 .card-btn{
     background: #9F3646;
@@ -92,4 +100,48 @@ input[type="radio"]:checked + label rect {
 }
 input[type="radio"]:checked + .card-svg-stroke  path {
     stroke: #B7076B;
+}
+input[type="radio"]:checked + .card-svg-walk  path {
+    stroke: #B7076B;
+}
+
+#fabric-table{
+    width: 100%;
+}
+#fabric-table thead {
+    border-bottom: 1px solid #b3b1b1;
+}
+
+.border-top {
+    border-top: 1px solid #b3b1b1;
+}
+#fabric-table thead th{
+    width: 16% ;
+    text-align: center;
+    white-space: nowrap;
+    padding-bottom: 8px;
+}
+#fabric-table tr{
+   color: #78849E;
+   font-size: .8rem;
+}
+
+#fabric-table tbody{
+    counter-reset: Serial;
+    padding-top: 1rem;
+    transform: translateY(.5rem);
+}
+td {
+    padding: .4rem 0;
+    text-align: center;
+}
+td:first-child::before {
+      counter-increment: Serial;
+      content: counter(Serial);
+      margin-right: .5rem;
+      color: #b3b1b1;
+  }
+
+  tr:last-child td:first-child::before {
+    content: "";
 }
