@@ -29633,12 +29633,17 @@ video {
   transition: all 1s;
 }
 
-.card {
+.fabricForm {
   width: 38vw;
-  max-height: 370px;
+  height: 23rem;
   overflow: hidden;
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+.fabric_card {
+  height: 23rem;
+  position: relative;
 }
 
 .card::-webkit-scrollbar {
