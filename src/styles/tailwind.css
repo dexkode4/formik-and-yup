@@ -16,7 +16,7 @@
 }
 
 .card-shadow {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.05);
+    box-shadow: 0 10px 20px 15px rgba(0,0,0,0.05);
   }
   
 .card-number-color {
@@ -53,11 +53,11 @@
     fill: #B7076B;
 }
 /*  */
-.card-svg-walk > *, .card-svg-walk path, .card-svg-walk g  {
+.card-svg-walk {
     transition: all .2s ease-in;
 }
 
-.card-svg-walk:hover > * , .card-svg-walk:hover path, .card-svg-walk:hover g   {
+.card-svg-walk:hover svg g  g, .card-svg-walk:hover svg  path {
     stroke: #B7076B;
 }
 
@@ -106,7 +106,9 @@ input[type="radio"]:checked + label rect {
 input[type="radio"]:checked + .card-svg-stroke  path {
     stroke: #B7076B;
 }
-input[type="radio"]:checked + .card-svg-walk  path {
+
+
+input[type="radio"]:checked + .card-svg-walk svg  g g {
     stroke: #B7076B;
 }
 
@@ -149,4 +151,21 @@ td:first-child::before {
 
   tr:last-child td:first-child::before {
     content: "";
+}
+
+.fsTailorWidget{
+    border-top-left-radius: 1000px;
+    border-bottom-left-radius: 1000px;
+    border-top-right-radius: 600px;
+    border-bottom-right-radius: 600px;
+    background-color: #f3f3f3;
+    height: 88px;
+}
+
+.fitted_pink_color {
+    color: #B7076B
+}
+
+.half_max_width {
+    max-width: 50%;
 }
