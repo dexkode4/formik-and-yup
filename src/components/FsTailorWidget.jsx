@@ -3,21 +3,21 @@ import { CaretDownDarkIcon, LocationBlackIcon } from '../assets/svg'
 
 function FsTailorWidget({ imgSrc, profession, profile }) {
     return (
-        <div className="w-2/5 fsTailorWidget relative shadow-md flex items-center pr-4">
-            <div className="w-2/12">
+        <div className="w-2/5 fsTailorWidget relative shadow-md flex items-center pr-4 mb-4">
+            <div className="mr-4">
                 <div className="rounded-full bg-white w-20 h-20  border-white border-4 overflow-hidden">
                     <img src={imgSrc} alt="user display" className="w-full" />
                 </div>
             </div>
-            <div className="flex font-nunito justify-between w-5/6">
-                <div>
+            <div className="flex font-nunito justify-between w-5/6 items-center">
+                <div className="  w-5/12 h-20 overflow-scroll">
                     <header className="font-extrabold">
                         <span className=" fitted_pink_color mr-2">{profession}:</span>
                         {profile.name}
                     </header>
                     <div className="flex items-center">
-                        <LocationBlackIcon />
-                        <span className="ml-2 text-xs text-blue-600 underline">{profile.location}</span>
+                        <LocationBlackIcon className="mr-2"/>
+                        <span className="text-xs text-blue-600 underline">{profile.location}</span>
                     </div>
 
                 </div>
@@ -40,21 +40,21 @@ function FsTailorWidget({ imgSrc, profession, profile }) {
                     </div>
                 </div> */}
 
-                <table>
+                <table className=" w-5/12  border h-20 overflow-scroll">
                     <tr className="whitespace-nowrap text-xs px-1">
-                        <th className="mr-2">Live orders</th>
+                        <th>Live orders</th>
                         <th>FTFR</th>
                         <th>% on time</th>
                     </tr>
                     <tr>
-                        <td > <span className="border p-1 rounded-lg color-card-text bg-white text-xs"> {profile.liveOrders}</span></td>
-                        <td> <span className="border p-1 rounded-lg color-card-text bg-white text-xs">{profile.ftfr}</span> </td>
-                        <td> <span className="border p-1 rounded-lg color-card-text bg-white text-xs"> {profile.percentageOnTime || '--'}</span></td>
+                        <td > <span className=" p-1 rounded-lg color-card-text text-xs"> {profile.liveOrders}</span></td>
+                        <td> <span className=" p-1 rounded-lg color-card-text  text-xs">{profile.ftfr}</span> </td>
+                        <td> <span className=" p-1 rounded-lg color-card-text  text-xs"> {profile.percentageOnTime || '--'}</span></td>
                     </tr>
                 </table>
                 <div className="flex items-center cursor-pointer">
                         <CaretDownDarkIcon />
-                    </div>
+                </div>
             </div>
         </div>
     )

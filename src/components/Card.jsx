@@ -1,8 +1,9 @@
+/* eslint-disable no-useless-computed-key */
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import 'date-fns';
 import React, { useEffect, useRef, useState } from 'react'
 import { Formik } from "formik";
 import * as Yup from 'yup';
-
 import {
     FabricIcon,
     HandShakeIcon,
@@ -16,14 +17,24 @@ import {
     LocationIcon,
     CheckedIcon,
     CaretDownIcon,
-    CaretLeftPinkIcon
+    CaretLeftPinkIcon,
+    CautionIcon
 } from '../assets/svg'
-import Ratings from './Ratings'
-
+import Ratings from './Ratings';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
+import './datePicker.css';
+import { getSuppliers } from './functions';
 
 function CardContainer({ children, cardContainerRef, index, setIndex, isSubmit }) {
     const cardHeight = 23;
-    let numberOfCards = 4;
+    let numberOfCards = 5;
 
     useEffect(() => {
         cardContainerRef.current.style.transform = `translateY(-${index * cardHeight}rem)`;
@@ -57,6 +68,8 @@ function CardContainer({ children, cardContainerRef, index, setIndex, isSubmit }
                         onClick={() => translateAny(1)}>&nbsp;</div>
                     <div className={`cursor-pointer border h-3 w-3 rounded-full mr-2 ${index === 2 && "bg-red-800"}`} href="#" alt="move"
                         onClick={() => translateAny(2)}>&nbsp;</div>
+                    <div className={`cursor-pointer border h-3 w-3 rounded-full mr-2 ${index === 3 && "bg-red-800"}`} href="#" alt="move"
+                        onClick={() => translateAny(3)}>&nbsp;</div>
 
                 </div>
                 {
@@ -78,22 +91,88 @@ function CardContainer({ children, cardContainerRef, index, setIndex, isSubmit }
 }
 
 function FabricsDetailCollection() {
-    const [ratings, setRatings] = useState(0);
     const cardContainerRef = useRef();
     const [index, setIndex] = useState(0)
     const [isSubmitting, setIsSubmitting] = useState(false);
-    console.log(isSubmitting)
+    const [startDate, setStartDate] = useState(new Date());
+    const [selectedDate, setSelectedDate] = React.useState(new Date());
+
+    useEffect(() => {
+        console.log('fetching suppliers')
+        getSuppliers()
+        .then(res => {
+            console.log(res)
+        })
+        .catch(err => console.error(err))
+    },[])
+
+    const handleDateChange = (date) => {
+      setSelectedDate(date);
+    };
+    const [fabricType, setFabricType] = useState({
+        type1:{
+            type: '',
+            yard: 0,
+            price: 0,
+            rating: 0
+        },
+        type2:{
+            type:'',
+            yard: 0,
+            price: 0,
+            rating:0
+        },
+        type3:{
+            type:'',
+            yard: 0,
+            price: 0,
+            rating: 0
+        }
+    });
+
+    const handleType1 = (e) => {
+        let {name, value} = e.target;
+        if(name === 'price' || name === 'yard'){
+            value = Number(value)
+        }
+        setFabricType({...fabricType, type1: { ...fabricType.type1, [name]: value, ["totalPrice"]: fabricType.type1.yard * fabricType.type1.price }})
+    }
+    const handleType2 = (e) => {
+        const {name, value} = e.target;
+        setFabricType({...fabricType, type2: { ...fabricType.type2, [name]: value, ["totalPrice"]: fabricType.type2.yard * fabricType.type2.price }})
+    }
+    const handleType3 = (e) => {
+        const {name, value} = e.target;
+        setFabricType({...fabricType, type3: { ...fabricType.type3, [name]: value , ["totalPrice"]: fabricType.type3.yard * fabricType.type3.price}})
+    }
+
+    const grandTotal = () => {
+        return Number((fabricType.type1.yard * fabricType.type1.price) +  (fabricType.type2.yard * fabricType.type2.price) + (fabricType.type3.yard * fabricType.type3.price)).toLocaleString()
+    }
+
+    const handleRating = (value) => {
+        setFabricType({...fabricType, type1: { ...fabricType.type1, rating: value }})
+    }
+    const handleRating2 = (value) => {
+        setFabricType({...fabricType, type2: { ...fabricType.type2, rating: value }})
+    }
+    const handleRating3 = (value) => {
+        setFabricType({...fabricType, type3: { ...fabricType.type3, rating: value }})
+    }
+
     useEffect(() => {
         if(isSubmitting){
             cardContainerRef.current.style.transform = `translateY(-${(index + 1) * 23}rem)`;
         }
     },[isSubmitting, index])
+    console.log(fabricType)
     return (
         <Formik
             initialValues={{ delivery_method: "", isGetAllFabric: null, delivery_method_tailor: "", location:"" }}
             onSubmit={(values) => {
                 setIsSubmitting(true)
-                console.log("Logging in ", values);
+                const data = {...values, fabricType, selectedDate}
+                console.log("Logging in ", data);
                 alert(JSON.stringify(values, null, 2));
                
             }}
@@ -177,56 +256,53 @@ function FabricsDetailCollection() {
                                             <tbody>
                                                 <tr>
                                                     <td><ImageUploadIcon className="inline" /> </td>
-                                                    <td><input type="text" className="text-black border border-gray-300 rounded-md w-11/12 outline-none bg-gray-100" /> </td>
-                                                    <td className="flex justify-center"><input type="number" min={0} className="text-black border border-gray-300 rounded-md w-1/2 outline-none bg-gray-100 pl-2" /> </td>
-                                                    <td><input type="number" min={0} className="text-black border border-gray-300 rounded-md w-11/12 outline-none bg-gray-100 pl-2" />  </td>
+                                                    <td><input type="text" name="type" className="text-black border border-gray-300 rounded-md w-11/12 outline-none bg-gray-100 px-2" onChange={handleType1} /> </td>
+                                                    <td className="flex justify-center"><input type="number"  name="yard" min={0} max={20} className="text-black border border-gray-300 rounded-md w-1/2 outline-none bg-gray-100 pl-2" onChange={handleType1} /> </td>
+                                                    <td><input type="number" name="price" min={0}  max={5000} className="text-black border border-gray-300 rounded-md w-11/12 outline-none bg-gray-100 pl-2" onChange={handleType1}  />  </td>
                                                     <td>
                                                         <Ratings
-                                                            rating={ratings}
-                                                            onSaveRating={setRatings}
+                                                            handleRating={handleRating}
                                                             starCount={5}
                                                             className="w-full flex"
                                                         />
 
                                                     </td>
-                                                    <td className="flex justify-center">{(6000).toLocaleString()}</td>
+                                                    <td className="flex justify-center">{(fabricType.type1.yard * fabricType.type1.price).toLocaleString()}</td>
                                                 </tr>
                                                 <tr>
                                                     <td><ImageUploadIcon className="inline" /> </td>
-                                                    <td><input type="text" className="text-black border border-gray-300 rounded-md w-11/12 outline-none bg-gray-100" />  </td>
-                                                    <td className="flex justify-center"><input type="number" min={0} className="text-black border border-gray-300 rounded-md w-1/2 outline-none bg-gray-100 pl-2" /> </td>
-                                                    <td><input type="number" min={0} className="text-black border border-gray-300 rounded-md w-11/12 outline-none bg-gray-100 pl-2" />  </td>
+                                                    <td><input type="text" name="type" className="text-black border border-gray-300 rounded-md w-11/12 outline-none bg-gray-100 px-2" onChange={handleType2}/>  </td>
+                                                    <td className="flex justify-center"><input type="number" name="yard" min={0} className="text-black border border-gray-300 rounded-md w-1/2 outline-none bg-gray-100 pl-2" onChange={handleType2}/> </td>
+                                                    <td><input type="number" name="price" min={0} className="text-black border border-gray-300 rounded-md w-11/12 outline-none bg-gray-100 pl-2" onChange={handleType2}/>  </td>
                                                     <td>
                                                         <Ratings
-                                                            rating={ratings}
-                                                            onSaveRating={setRatings}
+                                                             handleRating={handleRating2}
                                                             starCount={5}
                                                             className="w-full flex"
                                                         />
                                                     </td>
-                                                    <td className="flex justify-center">1000</td>
+                                                    <td className="flex justify-center">{(fabricType.type2.yard * fabricType.type2.price).toLocaleString()}</td>
                                                 </tr>
                                                 <tr className="">
                                                     <td><ImageUploadIcon className="inline" /> </td>
-                                                    <td><input type="text" className="text-black border border-gray-300 rounded-md w-11/12 outline-none bg-gray-100" />  </td>
-                                                    <td className="flex justify-center"><input type="number" min={0} className="text-black border border-gray-300 rounded-md w-1/2 outline-none bg-gray-100 text-center pl-2" /> </td>
-                                                    <td><input type="number" min={0} className="text-black border border-gray-300 rounded-md w-11/12 outline-none bg-gray-100 pl-2" />  </td>
+                                                    <td><input type="text" name="type" className="text-black border border-gray-300 rounded-md w-11/12 outline-none bg-gray-100 px-2" onChange={handleType3} />  </td>
+                                                    <td className="flex justify-center"><input type="number" name="yard" min={0} className="text-black border border-gray-300 rounded-md w-1/2 outline-none bg-gray-100 text-center pl-2" onChange={handleType3}/> </td>
+                                                    <td><input type="number" name="price" min={0} className="text-black border border-gray-300 rounded-md w-11/12 outline-none bg-gray-100 pl-2" onChange={handleType3}/>  </td>
                                                     <td>  <Ratings
-                                                        rating={ratings}
-                                                        onSaveRating={setRatings}
+                                                        handleRating={handleRating3}
                                                         starCount={5}
                                                         className="w-full flex"
                                                     />
                                                     </td>
-                                                    <td className="flex justify-center">2000</td>
+                                                    <td className="flex justify-center">{(fabricType.type3.yard * fabricType.type3.price).toLocaleString()}</td>
                                                 </tr>
                                                 <tr className="border-top">
                                                     <td>Total</td>
                                                     <td></td>
-                                                    <td className=" text-center">7</td>
+                                                    <td className=" text-center">{Number(fabricType.type1.yard) + Number(fabricType.type2.yard) + Number(fabricType.type3.yard)}</td>
                                                     <td></td>
                                                     <td></td>
-                                                    <td>N 10,900</td>
+                                                    <td>{grandTotal()}</td>
                                                 </tr>
                                             </tbody>
 
@@ -299,6 +375,55 @@ function FabricsDetailCollection() {
                                         </div>
                                     </div>
                                 </CardContainer>
+
+                                <CardContainer cardContainerRef={cardContainerRef} index={index} setIndex={setIndex}>
+                                <div className="flex mt-4">
+                                            <span className="text-gray-200 text-5xl mr-5 font-karla italic -mt-1">6</span>
+                                            <div className="w-full">
+                                            <span className="font-light color-card-text font-nunito text-sm">What time are you planning the fabric handover to occur?</span>
+                                                <div className="flex w-full mt-4 flex-col">
+                                                
+                                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                                <div className="flex justify-between">
+                                                <KeyboardDatePicker
+                                                    className="w-1/2 text-center  border"
+                                                    disableToolbar
+                                                    variant="inline"
+                                                    format="MM/dd/yyyy"
+                                                    margin="normal"
+                                                
+                                                    id="date-picker-inline"
+                                                    value={selectedDate}
+                                                    onChange={handleDateChange}
+                                                    KeyboardButtonProps={{
+                                                        'aria-label': 'change date',
+                                                    }}
+                                                    />
+                                                      <KeyboardTimePicker
+                                                      className=" text-center w-1/3"
+                                                    //    disableToolbar
+                                                       variant="inline"
+                                                        margin="normal"
+                                                        id="time-picker-inline"
+                                                        value={selectedDate}
+                                                        onChange={handleDateChange}
+                                                        KeyboardButtonProps={{
+                                                            'aria-label': 'change time',
+                                                        }}
+                                                        />
+                                                        </div>
+                                                    </MuiPickersUtilsProvider>
+
+                                                    <div className="flex  mt-14 -ml-3">
+                                                        <CautionIcon/>
+                                                        <span className="ml-2 font-bold color-card-text text-xs">To adhere to the Fitted SLA, you need to get this to the tailor within 4 hours from now</span>
+                                                    </div>
+                                                </div>
+                                              
+                                            </div>
+                                        </div>
+                                </CardContainer>
+
 
                                 <div className="mb-12 p-9">
                                     <div className="">

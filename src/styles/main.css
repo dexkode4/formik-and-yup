@@ -29607,14 +29607,14 @@ video {
   fill: #B7076B;
 }
 
-/*  */
-
-.card-svg-walk {
+.card-svg-walk svg g  g,
+.card-svg-walk svg  {
   transition: all .2s ease-in;
 }
 
 .card-svg-walk:hover svg g  g, .card-svg-walk:hover svg  path {
-  stroke: #B7076B;
+  fill: #B7076B;
+  stroke: #B7076B
 }
 
 .card-btn{
@@ -29644,6 +29644,7 @@ video {
 .fabric_card {
   height: 23rem;
   position: relative;
+  z-index: 1000;
 }
 
 .card::-webkit-scrollbar {
@@ -29662,7 +29663,9 @@ input[type="radio"]:checked + .card-svg-stroke  path {
   stroke: #B7076B;
 }
 
-input[type="radio"]:checked + .card-svg-walk svg  g g {
+input[type="radio"]:checked + label svg  g g ,
+input[type="radio"]:checked + label svg  path {
+  fill: #B7076B;
   stroke: #B7076B;
 }
 

@@ -2,11 +2,16 @@ import React, { useRef, useState } from 'react';
 import Card from './components/Card';
 import FsTailorWidget from './components/FsTailorWidget';
 import SignupContainer from './components/SignupContainer';
-
+import {
+  
+  WalkingIcon,
+  SewingMachineIcon,
+ 
+} from './assets/svg'
 
 const profile = {
   customerRating: "-",
-  ftfr: "40.90%",
+  ftfr: "40%",
   id: "FS-003",
   liveOrders: 18,
   location: "10 Jaiyeola George Crescent iyano ipaja, Lagos",
@@ -50,6 +55,11 @@ function App() {
           <Card  handleNext={handleNext} translateAny={translateAny} index={index}/> */}
       {/* </div> */}
       {/* </div> */}
+
+      <span className="flex items-center card-svg-walk">
+                                                        <WalkingIcon />
+                                                        <SewingMachineIcon />
+                                                    </span>
 
     </div>
 

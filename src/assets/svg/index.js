@@ -13,4 +13,5 @@ export { ReactComponent as CheckedIcon } from './CheckedIcon.svg';
 export { ReactComponent as CaretLeftPinkIcon } from './CaretLeftPinkIcon.svg';
 export { ReactComponent as LocationBlackIcon } from './LocationBlackIcon.svg';
 export { ReactComponent as CaretDownDarkIcon } from './CaretDownDarkIcon.svg';
+export { ReactComponent as CautionIcon } from './CautionIcon.svg';
 

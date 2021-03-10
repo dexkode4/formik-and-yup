@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 function StarIcon(props) {
     const { fill = 'none' } = props;
@@ -35,7 +35,8 @@ function StarIcon(props) {
     )
   }
 
-  function Ratings ({rating, onSaveRating, starCount, className}) {
+  function Ratings ({ starCount, className, handleRating}) {
+    const [rating, setRatings] = React.useState(0);
     const [hoverRating, setHoverRating] = React.useState(0); 
     let stars = new Array(starCount).fill(1).map((item, index) => item + index );
     const onMouseEnter = (index) => {
@@ -44,6 +45,11 @@ function StarIcon(props) {
     const onMouseLeave = () => {
       setHoverRating(0);
     };
+
+    useEffect(() => {
+      handleRating(rating)
+    },[rating])
+
     return(
       <div className={className}>
         {stars.map((index) => {
@@ -55,7 +61,7 @@ function StarIcon(props) {
               hoverRating={hoverRating} 
               onMouseEnter={onMouseEnter} 
               onMouseLeave={onMouseLeave} 
-              onSaveRating={()  => onSaveRating(index)} />
+              onSaveRating={()  => setRatings(index)} />
           )
         })}
       </div>
